@@ -62,9 +62,21 @@ end
 
 
 function Base. *(a, p::Polynomial)
-    Polynomial(map(x->a*x, p.coeffs))
+  Polynomial(map(x->a*x, p.coeffs))
 end
 Base. *(p::Polynomial, a) = a*p
+
+function Base. *(p::Polynomial, q::Polynomial)
+  l = length(p.coeffs)+length(q.coeffs)-1
+  rcoeffs = zeros(eltype(p.coeffs), l)
+  for (i,c) in enumerate(p.coeffs)
+    for (j,d) in enumerate(q.coeffs)
+      rcoeffs[i+j-1] += c*d
+    end
+  end
+  Polynomial(rcoeffs)
+end
+
 
 export deriv
 function deriv(p::Polynomial)

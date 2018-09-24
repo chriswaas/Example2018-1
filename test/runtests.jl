@@ -18,12 +18,24 @@ using Test
 @testset "Polynomials form a ring" begin
 
   z = Polynomial([0])
+  e = Polynomial([1])
   for n in 1:100
     deg = rand(0:100)
+    c = rand(-200:200)
     p = Polynomial(rand(-1000000:1000000, deg+1))
+    q = Polynomial(rand(-1000000:1000000, deg+1))
+    r = Polynomial(rand(-1000000:1000000, deg+1))
 
     @test p+z == p
     @test z+p==p
+    @test e*p == p
+    @test p*e == p
     @test p+(-p)==z
+    @test (p+q)+r == p+(q+r)
+    @test p+q == q+p
+    @test (p*q)*r == p*(q*r)
+    @test p*q*c == c*q*p
+    @test p*(q+r) == p*q + p*r
+    @test (p+q)*r == p*r + q*r
   end
 end
